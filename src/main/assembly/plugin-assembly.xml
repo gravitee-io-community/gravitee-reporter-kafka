@@ -17,24 +17,24 @@
 
 -->
 <assembly>
-	<id>plugin</id>
-	<formats>
-		<format>zip</format>
-	</formats>
-	<includeBaseDirectory>false</includeBaseDirectory>
+    <id>plugin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
 
-	<!-- Include the main Policy Jar file -->
-	<files>
-		<file>
-			<source>${project.build.directory}/${project.build.finalName}.jar</source>
-		</file>
-	</files>
+    <!-- Include the main Policy Jar file -->
+    <files>
+        <file>
+            <source>${project.build.directory}/${project.build.finalName}.jar</source>
+        </file>
+    </files>
 
-	<!-- Finally include Policy dependencies -->
-	<dependencySets>
-		<dependencySet>
-			<outputDirectory>lib</outputDirectory>
-			<useProjectArtifact>false</useProjectArtifact>
-		</dependencySet>
-	</dependencySets>
+    <!-- Finally include Policy dependencies -->
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+        </dependencySet>
+    </dependencySets>
 </assembly>

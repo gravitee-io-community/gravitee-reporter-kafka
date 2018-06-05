@@ -1,0 +1,27 @@
+reporters:
+  kafka:
+    topic: gateway_log_topic
+    hosts:
+      - node1:6062
+      - node2:6062
+    type:
+      - log
+      - monitor
+    java:
+      security:
+        krb5:
+          conf: krb5.conf
+    settings:
+      acks: 1
+      security:
+        protocol: SASL_SSL
+      sasl:
+        jaas:
+          config: >-
+            com.sun.security.auth.module.Krb5LoginModule required
+            useKeyTab=true
+            refreshKrb5Config=true
+            storeKey=true
+            serviceName="kafka"
+            keyTab="key.keytab"
+            principal="foo@DOMAIN.COM";

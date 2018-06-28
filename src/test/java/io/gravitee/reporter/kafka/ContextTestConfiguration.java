@@ -13,27 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.reporter.kafka.spring;
+package io.gravitee.reporter.kafka;
 
-import io.gravitee.reporter.kafka.config.KafkaConfiguration;
-import io.gravitee.reporter.kafka.spring.factory.KafkaClientProducerFactory;
+import io.gravitee.gateway.env.EnvironmentConfiguration;
+import io.gravitee.reporter.kafka.spring.ReporterConfiguration;
 import io.vertx.core.Vertx;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.context.annotation.Import;
 
 @Configuration
-@Conditional(EnabledKafkaReporter.class)
-public class ReporterConfiguration {
+@Import({EnvironmentConfiguration.class, ReporterConfiguration.class})
+public class ContextTestConfiguration {
 
     @Bean
-    public KafkaClientProducerFactory kafkaClientProducerFactory(KafkaConfiguration configuration, Vertx vertx) {
-        return new KafkaClientProducerFactory(configuration, vertx);
+    public Vertx vertx() {
+        return Vertx.vertx();
     }
 
     @Bean
-    public KafkaConfiguration configuration(ConfigurableEnvironment environment) {
-        return new KafkaConfiguration(environment);
+    public KafkaReporter kafkaReporter() {
+        return new KafkaReporter();
     }
 }

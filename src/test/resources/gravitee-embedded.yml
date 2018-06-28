@@ -1,0 +1,5 @@
+reporters:
+  kafka:
+    topic: topic
+    hosts:
+      - ${spring.embedded.kafka.brokers}

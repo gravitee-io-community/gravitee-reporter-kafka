@@ -28,7 +28,7 @@
     </parent>
 
     <groupId>io.gravitee.reporter</groupId>
-    <artifactId>kafka-reporter</artifactId>
+    <artifactId>gravitee-reporter-kafka</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>

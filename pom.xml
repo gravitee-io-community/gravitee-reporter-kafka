@@ -29,12 +29,12 @@
 
     <groupId>io.gravitee.reporter</groupId>
     <artifactId>gravitee-reporter-kafka</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
-        <gravitee-gateway-api.version>1.10.0</gravitee-gateway-api.version>
-        <gravitee-common.version>1.11.0</gravitee-common.version>
-        <gravitee-reporter-api.version>1.10.0</gravitee-reporter-api.version>
+        <gravitee-gateway-api.version>1.11.0</gravitee-gateway-api.version>
+        <gravitee-common.version>1.12.0</gravitee-common.version>
+        <gravitee-reporter-api.version>1.11.0</gravitee-reporter-api.version>
         <gravitee-policy-api.version>1.2.0</gravitee-policy-api.version>
         <spring-kafka.version>1.2.3.RELEASE</spring-kafka.version>
         <assertj-core.version>3.8.0</assertj-core.version>

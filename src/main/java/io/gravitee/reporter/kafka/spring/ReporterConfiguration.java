@@ -19,12 +19,10 @@ import io.gravitee.reporter.kafka.config.KafkaConfiguration;
 import io.gravitee.reporter.kafka.spring.factory.KafkaClientProducerFactory;
 import io.vertx.core.Vertx;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 @Configuration
-@Conditional(EnabledKafkaReporter.class)
 public class ReporterConfiguration {
 
     @Bean

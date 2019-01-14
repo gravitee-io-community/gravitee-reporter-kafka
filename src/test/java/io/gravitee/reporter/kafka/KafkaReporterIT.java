@@ -26,17 +26,17 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
 import io.vertx.kafka.client.serialization.JsonObjectDeserializer;
+import net.manub.embeddedkafka.EmbeddedKafka$;
+import net.manub.embeddedkafka.EmbeddedKafkaConfigImpl;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
 
 import javax.inject.Inject;
@@ -51,8 +51,7 @@ import java.util.concurrent.Callable;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@DirtiesContext
+@RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {ContextTestConfiguration.class})
 public class KafkaReporterIT {
 
@@ -67,13 +66,24 @@ public class KafkaReporterIT {
     @Inject
     private Vertx vertx;
 
-    @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, "topic");
+    public static EmbeddedKafkaConfigImpl  conf = new EmbeddedKafkaConfigImpl(6001, 6000,
+            new scala.collection.immutable.HashMap<String, String>(),
+            new scala.collection.immutable.HashMap<String, String>(),
+            new scala.collection.immutable.HashMap<String, String>());
+
+    public static  EmbeddedKafka$ kafkaUnitServer =EmbeddedKafka$.MODULE$;
 
     @BeforeClass
     public static void setUpClass() throws FileNotFoundException {
+       // kafkaUnitServer.startup();
         File graviteeConf = ResourceUtils.getFile("classpath:gravitee-embedded.yml");
         System.setProperty("gravitee.conf", graviteeConf.getAbsolutePath());
+
+        kafkaUnitServer.start(conf);
+    }
+    @AfterClass
+    public static void after(){
+        kafkaUnitServer.stop();
     }
 
     @Test

@@ -15,7 +15,8 @@
  */
 package io.gravitee.reporter.kafka.config;
 
-import io.gravitee.gateway.env.EnvironmentConfiguration;
+import io.gravitee.gateway.env.GatewayConfiguration;
+import io.gravitee.node.container.spring.env.EnvironmentConfiguration;
 import io.gravitee.reporter.kafka.model.MessageType;
 import io.vertx.kafka.client.serialization.JsonObjectSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -23,9 +24,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ResourceUtils;
@@ -34,17 +32,15 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {KafkaConfiguration.class, EnvironmentConfiguration.class})
+@ContextConfiguration(classes = {EnvironmentConfiguration.class,KafkaConfiguration.class, GatewayConfiguration.class})
 public class KafkaConfigurationTest {
 
     @Inject

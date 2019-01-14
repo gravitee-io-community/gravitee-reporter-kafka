@@ -34,6 +34,7 @@
     <properties>
         <gravitee-gateway-api.version>1.11.0</gravitee-gateway-api.version>
         <gravitee-common.version>1.12.0</gravitee-common.version>
+        <gravitee-node.version>1.2.2</gravitee-node.version>
         <gravitee-reporter-api.version>1.11.0</gravitee-reporter-api.version>
         <gravitee-policy-api.version>1.2.0</gravitee-policy-api.version>
         <spring-kafka.version>1.2.3.RELEASE</spring-kafka.version>
@@ -53,8 +54,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>*IT.java</include>
-                        <include>*Test.java</include>
+                        <include>**/*IT.java</include>
+                        <include>**/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>
@@ -101,7 +102,7 @@
         <dependency>
             <groupId>io.gravitee.gateway</groupId>
             <artifactId>gravitee-gateway-env</artifactId>
-            <version>${gravitee-gateway-api.version}</version>
+            <version>1.21.2</version>
         </dependency>
         <dependency>
             <groupId>io.gravitee.reporter</groupId>
@@ -114,6 +115,11 @@
             <artifactId>gravitee-common</artifactId>
             <version>${gravitee-common.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.gravitee.node</groupId>
+            <artifactId>gravitee-node-container</artifactId>
+            <version>${gravitee-node.version}</version>
         </dependency>
 
         <!-- Spring dependencies -->
@@ -159,17 +165,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-            <version>${spring-kafka.version}</version>
+            <groupId>net.manub</groupId>
+            <artifactId>scalatest-embedded-kafka_2.12</artifactId>
+            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka-test</artifactId>
-            <version>${spring-kafka.version}</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>

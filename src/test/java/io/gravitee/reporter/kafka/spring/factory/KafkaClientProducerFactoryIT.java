@@ -18,11 +18,12 @@ package io.gravitee.reporter.kafka.spring.factory;
 import io.gravitee.reporter.kafka.ContextTestConfiguration;
 import io.gravitee.reporter.kafka.config.KafkaConfiguration;
 import io.vertx.core.Vertx;
+import net.manub.embeddedkafka.EmbeddedKafka$;
+import net.manub.embeddedkafka.EmbeddedKafkaConfigImpl;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,8 +38,12 @@ import java.io.FileNotFoundException;
 @ContextConfiguration(classes = {ContextTestConfiguration.class})
 public class KafkaClientProducerFactoryIT {
 
-    @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, "topic");
+    static EmbeddedKafkaConfigImpl conf = new EmbeddedKafkaConfigImpl(6001, 6000,
+            new scala.collection.immutable.HashMap<String, String>(),
+            new scala.collection.immutable.HashMap<String, String>(),
+            new scala.collection.immutable.HashMap<String, String>());
+
+    static EmbeddedKafka$ kafkaUnitServer =EmbeddedKafka$.MODULE$;
 
     @Inject
     private KafkaConfiguration kafkaConfiguration;
@@ -47,6 +52,13 @@ public class KafkaClientProducerFactoryIT {
     public static void setUpClass() throws FileNotFoundException {
         File graviteeConf = ResourceUtils.getFile("classpath:gravitee-embedded.yml");
         System.setProperty("gravitee.conf", graviteeConf.getAbsolutePath());
+
+        kafkaUnitServer.start(conf);
+
+    }
+    @AfterClass
+    public static void after(){
+        kafkaUnitServer.stop();
     }
 
     @Test

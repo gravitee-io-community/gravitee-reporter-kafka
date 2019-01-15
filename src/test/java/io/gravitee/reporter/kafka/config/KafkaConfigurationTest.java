@@ -50,6 +50,7 @@ public class KafkaConfigurationTest {
     public static void setUp() throws FileNotFoundException {
         File graviteeConf = ResourceUtils.getFile("classpath:gravitee.yml");
         System.setProperty("gravitee.conf", graviteeConf.getAbsolutePath());
+        System.setProperty("reporters_kafka_settings_security_protocol2", "SASL_SSL2");
     }
 
     @Test
@@ -69,7 +70,10 @@ public class KafkaConfigurationTest {
         assertThat(kafkaConfiguration.getKafkaConfigMap().get("sasl.jaas.config")).isEqualTo("com.sun.security.auth.module.Krb5LoginModule required useKeyTab=true refreshKrb5Config=true storeKey=true serviceName=\"kafka\" keyTab=\"key.keytab\" principal=\"foo@DOMAIN.COM\";");
         assertThat(System.getProperty("java.security.krb5.conf")).isEqualTo("krb5.conf");
     }
-
+    @Test
+    public void shouldLoadSettingsWithUnderscore()  {
+         assertThat(kafkaConfiguration.getKafkaConfigMap().get("security.protocol2")).isEqualTo("SASL_SSL2");
+    }
     @Test
     public void shouldRaiseExceptionWhenNoKafkaBroker() {
         ConfigurableEnvironment env = mock(ConfigurableEnvironment.class);

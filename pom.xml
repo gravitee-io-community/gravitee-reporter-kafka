@@ -24,9 +24,10 @@
     <parent>
         <groupId>io.gravitee</groupId>
         <artifactId>gravitee-parent</artifactId>
-        <version>14</version>
+        <version>15</version>
     </parent>
 
+    <name>Gravitee.io APIM - Reporter - Kafka</name>
     <groupId>io.gravitee.reporter</groupId>
     <artifactId>gravitee-reporter-kafka</artifactId>
     <version>1.1.0-SNAPSHOT</version>
@@ -37,7 +38,6 @@
         <gravitee-reporter-api.version>1.11.0</gravitee-reporter-api.version>
         <gravitee-policy-api.version>1.2.0</gravitee-policy-api.version>
         <spring-kafka.version>1.2.3.RELEASE</spring-kafka.version>
-        <assertj-core.version>3.8.0</assertj-core.version>
     </properties>
 
     <build>
@@ -150,12 +150,11 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

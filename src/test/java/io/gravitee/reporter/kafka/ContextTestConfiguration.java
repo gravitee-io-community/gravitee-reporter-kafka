@@ -16,7 +16,6 @@
 package io.gravitee.reporter.kafka;
 
 
-import io.gravitee.gateway.env.GatewayConfiguration;
 import io.gravitee.reporter.kafka.spring.ReporterConfiguration;
 import io.vertx.core.Vertx;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import  io.gravitee.node.container.spring.env.EnvironmentConfiguration;
 @Configuration
-@Import({ EnvironmentConfiguration.class,ReporterConfiguration.class, GatewayConfiguration.class})
+@Import({ EnvironmentConfiguration.class,ReporterConfiguration.class})
 public class ContextTestConfiguration {
 
     @Bean

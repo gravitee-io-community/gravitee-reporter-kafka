@@ -15,7 +15,6 @@
  */
 package io.gravitee.reporter.kafka.config;
 
-import io.gravitee.gateway.env.GatewayConfiguration;
 import io.gravitee.node.container.spring.env.EnvironmentConfiguration;
 import io.gravitee.reporter.kafka.model.MessageType;
 import io.vertx.kafka.client.serialization.JsonObjectSerializer;
@@ -40,7 +39,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {EnvironmentConfiguration.class,KafkaConfiguration.class, GatewayConfiguration.class})
+@ContextConfiguration(classes = {EnvironmentConfiguration.class,KafkaConfiguration.class})
 public class KafkaConfigurationTest {
 
     @Inject

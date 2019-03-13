@@ -99,11 +99,7 @@
             <version>${gravitee-gateway-api.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>io.gravitee.gateway</groupId>
-            <artifactId>gravitee-gateway-env</artifactId>
-            <version>1.21.2</version>
-        </dependency>
+        
         <dependency>
             <groupId>io.gravitee.reporter</groupId>
             <artifactId>gravitee-reporter-api</artifactId>
@@ -120,6 +116,12 @@
             <groupId>io.gravitee.node</groupId>
             <artifactId>gravitee-node-container</artifactId>
             <version>${gravitee-node.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Spring dependencies -->

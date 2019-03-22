@@ -30,7 +30,7 @@
     <name>Gravitee.io APIM - Reporter - Kafka</name>
     <groupId>io.gravitee.reporter</groupId>
     <artifactId>gravitee-reporter-kafka</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0-SNAPSHOT</version>
 
     <properties>
         <gravitee-gateway-api.version>1.14.0</gravitee-gateway-api.version>

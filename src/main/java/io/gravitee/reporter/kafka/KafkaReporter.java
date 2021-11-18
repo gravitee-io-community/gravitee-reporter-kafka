@@ -16,12 +16,12 @@
 package io.gravitee.reporter.kafka;
 
 import io.gravitee.common.service.AbstractService;
+import io.gravitee.node.api.monitor.Monitor;
 import io.gravitee.reporter.api.Reportable;
 import io.gravitee.reporter.api.Reporter;
 import io.gravitee.reporter.api.health.EndpointStatus;
 import io.gravitee.reporter.api.http.Metrics;
 import io.gravitee.reporter.api.log.Log;
-import io.gravitee.reporter.api.monitor.Monitor;
 import io.gravitee.reporter.kafka.config.KafkaConfiguration;
 import io.gravitee.reporter.kafka.model.MessageType;
 import io.vertx.core.json.JsonObject;

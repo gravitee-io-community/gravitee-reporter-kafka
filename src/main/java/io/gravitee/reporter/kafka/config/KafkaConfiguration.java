@@ -19,17 +19,16 @@ import io.gravitee.common.util.EnvironmentUtils;
 import io.gravitee.reporter.kafka.model.HostAddress;
 import io.gravitee.reporter.kafka.model.MessageType;
 import io.vertx.kafka.client.serialization.JsonObjectSerializer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 public class KafkaConfiguration {
 
@@ -110,7 +109,10 @@ public class KafkaConfiguration {
     }
 
     private HostAddress buildHostAddress(String serializedHost) {
-        Assert.isTrue(serializedHost.contains(KafkaConfiguration.PORT_SEPARATOR), "Kafka broker node does not respect hostname:port syntax");
+        Assert.isTrue(
+            serializedHost.contains(KafkaConfiguration.PORT_SEPARATOR),
+            "Kafka broker node does not respect hostname:port syntax"
+        );
         String[] hostParts = serializedHost.split(KafkaConfiguration.PORT_SEPARATOR);
         String hostname = hostParts[0].toLowerCase();
         Integer port = Integer.parseInt(hostParts[1].trim());
@@ -124,7 +126,9 @@ public class KafkaConfiguration {
         configProducer.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonObjectSerializer.class.getCanonicalName());
 
         Map<String, Object> settings = EnvironmentUtils.getPropertiesStartingWith(environment, "reporters.kafka.settings");
-        configProducer.putAll(settings.entrySet().stream().collect(Collectors.toMap(e -> buildkafkaKey(e.getKey()), e -> e.getValue().toString())));
+        configProducer.putAll(
+            settings.entrySet().stream().collect(Collectors.toMap(e -> buildkafkaKey(e.getKey()), e -> e.getValue().toString()))
+        );
 
         if (!StringUtils.isEmpty(krb5_conf)) {
             System.setProperty("java.security.krb5.conf", krb5_conf);
@@ -133,9 +137,6 @@ public class KafkaConfiguration {
     }
 
     private String buildkafkaKey(String key) {
-        return key
-                .replaceAll("reporters.kafka.settings.", "")
-                .replaceAll("_",".");
+        return key.replaceAll("reporters.kafka.settings.", "").replaceAll("_", ".");
     }
-
 }

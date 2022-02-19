@@ -15,21 +15,22 @@
  */
 package io.gravitee.reporter.kafka.model;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import org.junit.Test;
 
 public class HostAddressTest {
 
     @Test
     public void shouldRaiseExceptionForNullHostList() {
-        assertThatIllegalArgumentException().isThrownBy(() -> {
-            HostAddress.stringifyHostAddresses(null);
-        }).withMessage("Host Address argument must not be Null");
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> {
+                HostAddress.stringifyHostAddresses(null);
+            })
+            .withMessage("Host Address argument must not be Null");
     }
 
     @Test
@@ -48,5 +49,4 @@ public class HostAddressTest {
         String str = HostAddress.stringifyHostAddresses(hostAddressList);
         assertThat("node1:6062,node2:6063").isEqualTo(str);
     }
-
 }

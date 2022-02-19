@@ -15,10 +15,9 @@
  */
 package io.gravitee.reporter.kafka.model;
 
-import org.springframework.util.Assert;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.util.Assert;
 
 public class HostAddress {
 

@@ -15,10 +15,10 @@
  */
 package io.gravitee.reporter.kafka.model;
 
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
+import org.junit.Test;
 
 public class MessageTypeTest {
 
@@ -33,6 +33,8 @@ public class MessageTypeTest {
 
     @Test
     public void shouldRaiseExceptionWhenGetIllegalTypeName() {
-        assertThatIllegalArgumentException().isThrownBy(() -> MessageType.getByName("foo")).withMessage(String.format("Unsupported reportable type [%s]", "foo"));
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> MessageType.getByName("foo"))
+            .withMessage(String.format("Unsupported reportable type [%s]", "foo"));
     }
 }

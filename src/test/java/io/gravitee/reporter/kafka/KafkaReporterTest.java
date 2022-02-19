@@ -15,11 +15,16 @@
  */
 package io.gravitee.reporter.kafka;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
 import io.gravitee.reporter.api.http.Metrics;
 import io.gravitee.reporter.api.log.Log;
 import io.gravitee.reporter.kafka.config.KafkaConfiguration;
 import io.gravitee.reporter.kafka.model.MessageType;
 import io.vertx.kafka.client.producer.KafkaProducer;
+import java.util.ArrayList;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +32,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.env.ConfigurableEnvironment;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
 
 public class KafkaReporterTest {
 

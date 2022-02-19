@@ -18,8 +18,10 @@ package io.gravitee.reporter.kafka.model;
 import java.util.Arrays;
 
 public enum MessageType {
-
-    LOG("log"), MONITOR("monitor"), HEALTH("health"), REQUEST("request");
+    LOG("log"),
+    MONITOR("monitor"),
+    HEALTH("health"),
+    REQUEST("request");
 
     private final String type;
 
@@ -27,12 +29,12 @@ public enum MessageType {
         this.type = type;
     }
 
-    public static MessageType getByName(final String value){
-        return Arrays.stream(values())
-                .filter(m -> m.name().equalsIgnoreCase(value))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Unsupported reportable type [%s]", value)));
-
+    public static MessageType getByName(final String value) {
+        return Arrays
+            .stream(values())
+            .filter(m -> m.name().equalsIgnoreCase(value))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(String.format("Unsupported reportable type [%s]", value)));
     }
 
     public String getType() {

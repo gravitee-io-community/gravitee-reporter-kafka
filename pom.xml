@@ -30,7 +30,7 @@
     <name>Gravitee.io APIM - Reporter - Kafka</name>
     <groupId>io.gravitee.reporter</groupId>
     <artifactId>gravitee-reporter-kafka</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
 
     <properties>
         <gravitee-gateway-api.version>1.28.1</gravitee-gateway-api.version>
@@ -40,6 +40,8 @@
         <gravitee-reporter-api.version>1.21.0</gravitee-reporter-api.version>
         <gravitee-policy-api.version>1.2.0</gravitee-policy-api.version>
         <spring-kafka.version>1.2.3.RELEASE</spring-kafka.version>
+        <!-- Property used by the publication job in CI-->
+        <publish-folder-path>graviteeio-apim/plugins/reporters</publish-folder-path>
     </properties>
 
     <build>

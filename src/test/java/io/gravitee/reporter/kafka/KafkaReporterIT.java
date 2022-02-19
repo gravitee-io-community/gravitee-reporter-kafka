@@ -15,6 +15,9 @@
  */
 package io.gravitee.reporter.kafka;
 
+import static org.awaitility.Awaitility.await;
+import static org.hamcrest.CoreMatchers.equalTo;
+
 import io.gravitee.common.http.HttpHeaders;
 import io.gravitee.common.http.HttpMethod;
 import io.gravitee.reporter.api.common.Request;
@@ -26,6 +29,14 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.kafka.client.consumer.KafkaConsumer;
 import io.vertx.kafka.client.serialization.JsonObjectDeserializer;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import javax.inject.Inject;
 import net.manub.embeddedkafka.EmbeddedKafka$;
 import net.manub.embeddedkafka.EmbeddedKafkaConfigImpl;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -39,20 +50,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.ResourceUtils;
 
-import javax.inject.Inject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
-
-import static org.awaitility.Awaitility.await;
-import static org.hamcrest.CoreMatchers.equalTo;
-
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {ContextTestConfiguration.class})
+@ContextConfiguration(classes = { ContextTestConfiguration.class })
 public class KafkaReporterIT {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KafkaReporterIT.class);
@@ -66,29 +65,32 @@ public class KafkaReporterIT {
     @Inject
     private Vertx vertx;
 
-    public static EmbeddedKafkaConfigImpl  conf = new EmbeddedKafkaConfigImpl(6001, 6000,
-            new scala.collection.immutable.HashMap<String, String>(),
-            new scala.collection.immutable.HashMap<String, String>(),
-            new scala.collection.immutable.HashMap<String, String>());
+    public static EmbeddedKafkaConfigImpl conf = new EmbeddedKafkaConfigImpl(
+        6001,
+        6000,
+        new scala.collection.immutable.HashMap<String, String>(),
+        new scala.collection.immutable.HashMap<String, String>(),
+        new scala.collection.immutable.HashMap<String, String>()
+    );
 
-    public static  EmbeddedKafka$ kafkaUnitServer =EmbeddedKafka$.MODULE$;
+    public static EmbeddedKafka$ kafkaUnitServer = EmbeddedKafka$.MODULE$;
 
     @BeforeClass
     public static void setUpClass() throws FileNotFoundException {
-       // kafkaUnitServer.startup();
+        // kafkaUnitServer.startup();
         File graviteeConf = ResourceUtils.getFile("classpath:gravitee-embedded.yml");
         System.setProperty("gravitee.conf", graviteeConf.getAbsolutePath());
 
         kafkaUnitServer.start(conf);
     }
+
     @AfterClass
-    public static void after(){
+    public static void after() {
         kafkaUnitServer.stop();
     }
 
     @Test
     public void shouldCreateInstanceAndSetEnvironnement() throws Exception {
-
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
@@ -119,7 +121,10 @@ public class KafkaReporterIT {
 
     private Callable<Integer> messageConsumed() {
         Map<String, String> configConsumer = new HashMap<>();
-        configConsumer.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, HostAddress.stringifyHostAddresses(kafkaConfiguration.getHostsAddresses()));
+        configConsumer.put(
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+            HostAddress.stringifyHostAddresses(kafkaConfiguration.getHostsAddresses())
+        );
         configConsumer.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, JsonObjectDeserializer.class.getCanonicalName());
         configConsumer.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonObjectDeserializer.class.getCanonicalName());
         configConsumer.put(ConsumerConfig.GROUP_ID_CONFIG, "topic");
@@ -129,15 +134,27 @@ public class KafkaReporterIT {
         List<JsonObject> logs = new ArrayList<>();
         consumer.handler(recorded -> {
             logs.add(recorded.value());
-            LOGGER.info("Processing key=" + recorded.key() + ",value=" + recorded.value() + ",partition=" + recorded.partition() + ",offset=" + recorded.offset());
+            LOGGER.info(
+                "Processing key=" +
+                recorded.key() +
+                ",value=" +
+                recorded.value() +
+                ",partition=" +
+                recorded.partition() +
+                ",offset=" +
+                recorded.offset()
+            );
         });
-        consumer.subscribe("topic", ar -> {
-            if (ar.succeeded()) {
-                LOGGER.info("subscribed");
-            } else {
-                LOGGER.info("Could not subscribe " + ar.cause().getMessage());
+        consumer.subscribe(
+            "topic",
+            ar -> {
+                if (ar.succeeded()) {
+                    LOGGER.info("subscribed");
+                } else {
+                    LOGGER.info("Could not subscribe " + ar.cause().getMessage());
+                }
             }
-        });
+        );
         return () -> logs.size();
     }
 }

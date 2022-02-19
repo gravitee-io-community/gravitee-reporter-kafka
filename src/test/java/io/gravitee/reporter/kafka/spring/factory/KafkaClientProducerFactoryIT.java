@@ -18,6 +18,9 @@ package io.gravitee.reporter.kafka.spring.factory;
 import io.gravitee.reporter.kafka.ContextTestConfiguration;
 import io.gravitee.reporter.kafka.config.KafkaConfiguration;
 import io.vertx.core.Vertx;
+import java.io.File;
+import java.io.FileNotFoundException;
+import javax.inject.Inject;
 import net.manub.embeddedkafka.EmbeddedKafka$;
 import net.manub.embeddedkafka.EmbeddedKafkaConfigImpl;
 import org.junit.AfterClass;
@@ -29,21 +32,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.ResourceUtils;
 
-import javax.inject.Inject;
-import java.io.File;
-import java.io.FileNotFoundException;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext
-@ContextConfiguration(classes = {ContextTestConfiguration.class})
+@ContextConfiguration(classes = { ContextTestConfiguration.class })
 public class KafkaClientProducerFactoryIT {
 
-    static EmbeddedKafkaConfigImpl conf = new EmbeddedKafkaConfigImpl(6001, 6000,
-            new scala.collection.immutable.HashMap<String, String>(),
-            new scala.collection.immutable.HashMap<String, String>(),
-            new scala.collection.immutable.HashMap<String, String>());
+    static EmbeddedKafkaConfigImpl conf = new EmbeddedKafkaConfigImpl(
+        6001,
+        6000,
+        new scala.collection.immutable.HashMap<String, String>(),
+        new scala.collection.immutable.HashMap<String, String>(),
+        new scala.collection.immutable.HashMap<String, String>()
+    );
 
-    static EmbeddedKafka$ kafkaUnitServer =EmbeddedKafka$.MODULE$;
+    static EmbeddedKafka$ kafkaUnitServer = EmbeddedKafka$.MODULE$;
 
     @Inject
     private KafkaConfiguration kafkaConfiguration;
@@ -54,10 +56,10 @@ public class KafkaClientProducerFactoryIT {
         System.setProperty("gravitee.conf", graviteeConf.getAbsolutePath());
 
         kafkaUnitServer.start(conf);
-
     }
+
     @AfterClass
-    public static void after(){
+    public static void after() {
         kafkaUnitServer.stop();
     }
 
@@ -72,5 +74,4 @@ public class KafkaClientProducerFactoryIT {
         KafkaClientProducerFactory factory = new KafkaClientProducerFactory(null, Vertx.vertx());
         factory.createInstance();
     }
-
 }

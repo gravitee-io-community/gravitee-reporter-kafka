@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 public class KafkaReporter extends AbstractService implements Reporter {
 
     private final Logger LOGGER = LoggerFactory.getLogger(KafkaReporter.class);
@@ -60,21 +59,30 @@ public class KafkaReporter extends AbstractService implements Reporter {
     @Override
     public void report(Reportable reportable) {
         if (kafkaProducer != null) {
-            KafkaProducerRecord<String, JsonObject> record = KafkaProducerRecord.create(kafkaConfiguration.getKafkaTopic(), JsonObject.mapFrom(reportable));
-            kafkaProducer.write(record, done -> {
-                String message;
-                if (done.succeeded()) {
-                    RecordMetadata recordMetadata = done.result();
-                    message = String.format("Topic=%s partition=%s offset=%s message %s",
-                            record.value(),
-                            recordMetadata.getTopic(),
-                            recordMetadata.getPartition(),
-                            recordMetadata.getOffset());
-                } else {
-                    message = String.format("Message %s not written on topic=%s", record.value(), kafkaConfiguration.getKafkaTopic());
+            KafkaProducerRecord<String, JsonObject> record = KafkaProducerRecord.create(
+                kafkaConfiguration.getKafkaTopic(),
+                JsonObject.mapFrom(reportable)
+            );
+            kafkaProducer.write(
+                record,
+                done -> {
+                    String message;
+                    if (done.succeeded()) {
+                        RecordMetadata recordMetadata = done.result();
+                        message =
+                            String.format(
+                                "Topic=%s partition=%s offset=%s message %s",
+                                record.value(),
+                                recordMetadata.getTopic(),
+                                recordMetadata.getPartition(),
+                                recordMetadata.getOffset()
+                            );
+                    } else {
+                        message = String.format("Message %s not written on topic=%s", record.value(), kafkaConfiguration.getKafkaTopic());
+                    }
+                    LOGGER.info(message);
                 }
-                LOGGER.info(message);
-            });
+            );
         }
     }
 
